@@ -1,57 +1,55 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add New Company') }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Company</title>
+</head>
+<body>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('companies.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            @error('name')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            @error('email')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="logo" class="block text-sm font-medium text-gray-700">Logo</label>
-                            <input type="file" name="logo" id="logo" class="mt-1 block w-full">
-                            @error('logo')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('description') }}</textarea>
-                            @error('description')
-                                <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="flex items-center justify-end mt-4">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                                Add Company
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <h1>Tambah Perusahaan Baru</h1>
+    
+    <!-- Tombol Kembali -->
+    <div>
+        <a href="/companies">Kembali ke Daftar Perusahaan</a>
     </div>
-</x-app-layout>
+    <br>
+
+    <form action="/companies" method="POST" enctype="multipart/form-data">
+        <?php echo csrf_field(); ?>
+
+        <div>
+            <label for="name">Nama:</label>
+            <input type="text" name="name" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="logo">Logo:</label>
+            <input type="file" name="logo">
+        </div>
+        <br>
+
+        <div>
+            <label for="description">Deskripsi:</label>
+            <textarea name="description" rows="3"></textarea>
+        </div>
+        <br>
+        
+        <div>
+            <label for="website">Website:</label>
+            <input type="text" name="website">
+        </div>
+        <br>
+
+        <button type="submit">Tambah Perusahaan</button>
+    </form>
+
+</body>
+</html>

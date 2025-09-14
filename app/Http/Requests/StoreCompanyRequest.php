@@ -7,29 +7,28 @@ use Illuminate\Validation\Rule;
 
 class StoreCompanyRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'logo' => [
-                'nullable',
-                'image',
-                'dimensions:min_width=100,min_height=100',
-                'max:2048' // 2MB
-            ],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048', 'dimensions:min_width=100,min_height=100'],
+            'website' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
         ];
+
+        if ($this->isMethod('POST')) {
+            $rules['email'][] = 'unique:companies,email';
+        }
+        if ($this->isMethod('PUT')) {
+            $rules['email'][] = Rule::unique('companies', 'email')->ignore($this->route('company'));
+        }
+
+        return $rules;
     }
 }

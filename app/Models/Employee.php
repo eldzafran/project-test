@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Employee extends Model
 {
@@ -19,8 +18,9 @@ class Employee extends Model
 
     /**
      * Get the company that owns the employee.
+     * Relasi: Satu karyawan dimiliki oleh satu perusahaan.
      */
-    public function company(): BelongsTo
+    public function company()
     {
         return $this->belongsTo(Company::class);
     }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
@@ -15,12 +14,14 @@ class Company extends Model
         'email',
         'logo',
         'description',
+        'website',
     ];
 
     /**
      * Get the employees for the company.
+     * Relasi: Satu perusahaan memiliki banyak karyawan.
      */
-    public function employees(): HasMany
+    public function employees()
     {
         return $this->hasMany(Employee::class);
     }
