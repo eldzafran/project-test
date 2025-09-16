@@ -1,60 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Company</title>
-</head>
-<body>
+@extends('layouts.app')
 
-    <h1>Edit Perusahaan</h1>
-
-    <!-- Tombol Kembali -->
-    <div>
-        <a href="/companies">Kembali ke Daftar Perusahaan</a>
+@section('content')
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Edit Company: <?= $company->name ?></h1>
+                    <div class="flex space-x-4">
+                        <a href="{{ route('companies.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Back to Companies</a>
+                    </div>
+                </div>
+                <form action="{{ route('companies.update', $company->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    @csrf
+                    @method('PUT')
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Company Name</label>
+                        <input type="text" id="name" name="name" value="<?= $company->name ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" value="<?= $company->email ?>" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="logo" class="block text-sm font-medium text-gray-700">Logo</label>
+                        <input type="file" id="logo" name="logo" class="mt-1 block w-full text-gray-500">
+                        <?php if ($company->logo): ?>
+                            <img src="<?= asset(str_replace('public/', 'storage/', $company->logo)) ?>" alt="Company Logo" class="mt-2 w-24 h-24 object-contain rounded-md border border-gray-300">
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700">URL</label>
+                        <textarea id="description" name="description" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"><?= $company->description ?></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <br>
-
-    <form action="/companies/<?= $company->id ?>" method="POST" enctype="multipart/form-data">
-        <?php echo csrf_field(); ?>
-        <?php echo method_field('PUT'); ?>
-
-        <div>
-            <label for="name">Nama:</label>
-            <input type="text" name="name" value="<?= old('name', $company->name) ?>" required>
-        </div>
-        <br>
-
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" name="email" value="<?= old('email', $company->email) ?>" required>
-        </div>
-        <br>
-
-        <div>
-            <label for="logo">Logo:</label>
-            <input type="file" name="logo">
-            <?php if ($company->logo): ?>
-                <br>
-                <img src="<?= asset(str_replace('public/', 'storage/', $company->logo)) ?>" alt="Logo" style="width: 50px;">
-            <?php endif; ?>
-        </div>
-        <br>
-
-        <div>
-            <label for="description">Deskripsi:</label>
-            <textarea name="description" rows="3"><?= old('description', $company->description) ?></textarea>
-        </div>
-        <br>
-        
-        <div>
-            <label for="website">Website:</label>
-            <input type="text" name="website" value="<?= old('website', $company->website) ?>">
-        </div>
-        <br>
-
-        <button type="submit">Update Perusahaan</button>
-    </form>
-
-</body>
-</html>
+@endsection
