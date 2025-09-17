@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEmployeeRequest;
 use App\Models\Employee;
 use App\Models\Company;
+use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
@@ -20,15 +20,19 @@ class EmployeeController extends Controller
         return view('employees.create', compact('companies'));
     }
 
-    public function store(StoreEmployeeRequest $request)
+    public function store(Request $request)
     {
-        Employee::create($request->validated());
-        return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
-    }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'company_id' => 'required|exists:companies,id',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
 
-    public function show(Employee $employee)
-    {
-        return view('employees.show', compact('employee'));
+        Employee::create($request->all());
+
+        return redirect()->route('employees.index')
+                         ->with('success','Employee created successfully.');
     }
 
     public function edit(Employee $employee)
@@ -37,15 +41,26 @@ class EmployeeController extends Controller
         return view('employees.edit', compact('employee', 'companies'));
     }
 
-    public function update(StoreEmployeeRequest $request, Employee $employee)
+    public function update(Request $request, Employee $employee)
     {
-        $employee->update($request->validated());
-        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'company_id' => 'required|exists:companies,id',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $employee->update($request->all());
+
+        return redirect()->route('employees.index')
+                         ->with('success','Employee updated successfully');
     }
 
     public function destroy(Employee $employee)
     {
         $employee->delete();
-        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
+
+        return redirect()->route('employees.index')
+                         ->with('success','Employee deleted successfully');
     }
 }

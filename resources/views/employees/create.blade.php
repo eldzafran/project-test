@@ -1,43 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-4xl mx-auto">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-gray-800">Add New Employee</h1>
-                    <div class="flex space-x-4">
-                        <a href="{{ route('employees.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">Back to Employees</a>
-                    </div>
-                </div>
-                <form action="{{ route('employees.store') }}" method="POST" class="space-y-6">
-                    @csrf
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                        <input type="text" id="phone" name="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    </div>
-                    <div>
-                        <label for="company_id" class="block text-sm font-medium text-gray-700">Company</label>
-                        <select id="company_id" name="company_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option value="">Select Company</option>
-                            <?php foreach ($companies as $company): ?>
-                            <option value="<?= $company->id ?>"><?= $company->name ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out">Save</button>
-                    </div>
-                </form>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Add New Employee</h1>
+        <a href="{{ route('employees.index') }}" class="py-2 px-6 rounded-full bg-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-300 transition-colors duration-200">
+            Back to List
+        </a>
+    </div>
+
+    <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+        <form action="{{ route('employees.store') }}" method="POST">
+            @csrf
+            <div class="mb-6">
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input type="text" name="name" id="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#1a57db] focus:border-[#1a57db]">
             </div>
-        </div>
+            <div class="mb-6">
+                <label for="company_id" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                <select name="company_id" id="company_id" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#1a57db] focus:border-[#1a57db]">
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-6">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#1a57db] focus:border-[#1a57db]">
+            </div>
+            <div class="mb-6">
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <input type="text" name="phone" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-[#1a57db] focus:border-[#1a57db]">
+            </div>
+            <div>
+                <button type="submit" class="py-2 px-6 rounded-full bg-[#1a57db] text-white font-semibold hover:bg-[#1546b3] transition-colors duration-200">
+                    Save Employee
+                </button>
+            </div>
+        </form>
     </div>
 @endsection
